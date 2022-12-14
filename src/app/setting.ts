@@ -10,7 +10,9 @@ export const setting = {
   loginBanner1: 'http://cwiztech.com/design/images/intro-back.jpeg',
   icon: 'http://cwiztech.com/design/images/favicon.ico',
 
-  service_NAME: 'SERVICENAME',
+  service_NAME: 'PERSON',
+  locationservice_NAME: 'LOCATION',
+  personservice_NAME: 'PERSON',
   isHash: '/#',
   redirctPath: '',
 };
