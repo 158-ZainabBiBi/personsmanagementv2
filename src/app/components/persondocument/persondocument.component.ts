@@ -149,6 +149,17 @@ export class PersondocumentComponent implements OnInit {
       if (response.filetype_ID != null)
       this.persondocument.filetype_ID = response.filetype_ID.id;
 
+      if (response.is_ARCHIVED == "Y") {
+        this.persondocument.is_ARCHIVED = true;
+      } else {
+        this.persondocument.is_ARCHIVED = false;
+      }
+
+      if (response.is_VERIFIED == "Y") {
+        this.persondocument.is_VERIFIED = true;
+      } else {
+        this.persondocument.is_VERIFIED = false;
+      }
 
     if (response.isactive == "Y") {
       this.persondocument.isactive = true;
@@ -233,6 +244,16 @@ export class PersondocumentComponent implements OnInit {
     persondocument.filetype_ID = this.addfiletype.filetypeID;
   
     console.log(persondocument);
+    if (persondocument.is_VERIFIED == true) {
+      persondocument.is_VERIFIED = "Y";
+    } else {
+      persondocument.is_VERIFIED = "N";
+    }
+    if (persondocument.is_ARCHIVED == true) {
+      persondocument.is_ARCHIVED = "Y";
+    } else {
+      persondocument.is_ARCHIVED = "N";
+    }
     if (persondocument.isactive == true) {
       persondocument.isactive = "Y";
     } else {

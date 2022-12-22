@@ -41,6 +41,7 @@ import { PersondocumentComponent } from '../../components/persondocument/persond
 import { DocumenttypeComponent } from '../../components/documenttype/documenttype.component';
 import { FiletypeComponent } from '../../components/filetype/filetype.component';
 import { PersoncommunicationsmsComponent } from '../../components/personcommunicationsms/personcommunicationsms.component';
+import { PersoncommunicationletterComponent } from '../../components/personcommunicationletter/personcommunicationletter.component';
 
 @NgModule({
   imports: [
@@ -85,6 +86,7 @@ import { PersoncommunicationsmsComponent } from '../../components/personcommunic
     DocumenttypeComponent,
     FiletypeComponent,
     PersoncommunicationsmsComponent,
+    PersoncommunicationletterComponent,
     
     
     
