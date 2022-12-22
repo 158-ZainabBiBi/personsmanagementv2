@@ -1,0 +1,19 @@
+<div class="form-group">
+    <label class="custom-label form-label"> Activty
+        <span style="color: red;" [hidden]="disabled" *ngIf="iscompulsory==true">*</span>
+    </label>
+    <div class="row">
+        <div class="col-md-10">
+            <ng-select [(ngModel)]="activityID" [disabled]="disabled" name="activityID" maxlength="50">
+                <ng-option *ngFor="let activity of activities" [value]="activity.id" [disabled]="disabled">
+                    {{ activity.code }} - {{ activity.description }}
+                </ng-option>
+            </ng-select>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-light ml-2" [hidden]="disabled" (click)="activityGet()">
+                <i class="fa fa-refresh" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 export const setting = {
   AppsStorePath: "http://uog.apps.cwiztech.com/#/",
   LoginAppPath: "http://uog.accounts.cwiztech.com/#/",
-  application_ID: "APPLICATIONNAME",
+  application_ID: "A786",
 
   companyName: 'University of Gujrat',
   companyShortName: 'UOG',

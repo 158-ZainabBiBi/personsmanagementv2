@@ -38,6 +38,7 @@
 
                 <dxi-column [width]="75" [allowFiltering]="false" [allowSorting]="false" alignment="center"
                     cellTemplate="cellTemplate"></dxi-column>
+
                 <dxi-column [width]="200" dataField="contacttype_ID.description" caption="Contact Type" cssClass="myClass"
                     alignment="center"></dxi-column>
                 <dxi-column dataField="contact_VALUE" caption="Contact Value" cssClass="myClass"
@@ -107,6 +108,15 @@
                     </div>
                 </div>
                 <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label class="control-label">
+                                <input type="checkbox" [checked]="personcontact.isactive"
+                                    [(ngModel)]="personcontact.isactive" name="isactive">
+                                Active
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

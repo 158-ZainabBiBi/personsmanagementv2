@@ -20,9 +20,16 @@ import { LoginComponent } from './pages/login/login.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { RequestOptionsService } from './services/setting.headers';
 import { HttpErrorInterceptor } from './services/http-error.interceptor';
+import { PersoncommunicationletterComponent } from './components/personcommunicationletter/personcommunicationletter.component';
+
+
+
+
+
+
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NotfoundComponent],
+  declarations: [AppComponent, LoginComponent, NotfoundComponent, PersoncommunicationletterComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule, // required animations module
