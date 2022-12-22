@@ -1,7 +1,7 @@
 
 
 <div *ngIf="view==1" class="form-group">
-    <label class="custom-label form-label">Person document
+    <label class="custom-label form-label">Person Document
         <span style="color: red;" [hidden]="disabled" *ngIf="iscompulsory==true">*</span>
     </label>
     <div class="row">
@@ -50,7 +50,7 @@
                     <dxi-column [width]="200" dataField="documenttype_DESC" caption="Description" cssClass="myClass"
                     alignment="center"></dxi-column>
 
-                    <dxi-column [width]="100" dataField="is_VERIFIED" caption="verified" cssClass="myClass" alignment="center">
+                    <dxi-column [width]="100" dataField="is_VERIFIED" caption="Verified" cssClass="myClass" alignment="center">
                     </dxi-column>
                     <dxi-column [width]="100" dataField="is_ARCHIVED" caption="Archived" cssClass="myClass" alignment="center">
                     </dxi-column>

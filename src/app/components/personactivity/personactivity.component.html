@@ -1,21 +1,21 @@
-
-
 <div *ngIf="view==1" class="form-group">
-    <label class="custom-label form-label">Personactivity 
+    <label class="custom-label form-label">Person Activity
         <span style="color: red;" [hidden]="disabled" *ngIf="iscompulsory==true">*</span>
     </label>
     <div class="row">
         <div class="col-md-10">
             <ng-select [(ngModel)]="personactivityID" [disabled]="disabled" name="personactivityID">
-                <ng-option *ngFor="let personactivity of personactivities" [value]="personactivity.personactivity_ID"
+                <ng-option *ngFor="let personactivity of personactivitys" [value]="personactivity.personactivity_ID"
                     [disabled]="disabled">
-                    {{ personactivity.person_ID }}
+                    {{ personactivity.personactivity_WEBLINK }}
                 </ng-option>
             </ng-select>
         </div>
         <div class="col-md-2">
-            <button type="button" class="btn btn-light ml-2" [hidden]="disabled" (click)="personactivityGet()">
+            <button type="button" class="btn btn-light ml-2" [hidden]="disabled"
+                (click)="personactivityAdvancedSearch(personID)">
                 <i class="fa fa-refresh" aria-hidden="true"></i>
+            </button>
         </div>
     </div>
 </div>
@@ -23,7 +23,7 @@
 <div *ngIf="view==2" class="form-group">
     <div class="outer-div">
         <div class="grid-wrapper">
-            <dx-data-grid #grid id="gridContainer" [dataSource]="personactivitiesAll" keyExpr="personactivity_ID"
+            <dx-data-grid #grid id="gridContainer" [dataSource]="personactivitysAll" keyExpr="personactivity_ID"
                 [showColumnLines]="true" [showRowLines]="true" [showBorders]="true" [rowAlternationEnabled]="true"
                 [allowColumnResizing]="true" [columnMinWidth]="30" [columnAutoWidth]="true" [remoteOperations]="true"
                 height="300" width="100%" (onToolbarPreparing)="onToolbarPreparing($event)">
@@ -35,14 +35,14 @@
                 <dxo-scrolling mode="virtual"></dxo-scrolling>
                 <dxo-sorting mode="multiple"></dxo-sorting>
                 <dxo-selection mode="single"></dxo-selection>
-
                 <dxi-column [width]="75" [allowFiltering]="false" [allowSorting]="false" alignment="center"
                     cellTemplate="cellTemplate"></dxi-column>
 
-                <dxi-column dataField="personactivity_WEBLINK" caption="Webb link" cssClass="myClass"
-                    [allowEditing]="false"></dxi-column>
-                <dxi-column [width]="200" dataField="activity_ID.description" caption="Activity" cssClass="myClass"
+                <dxi-column [width]="200" dataField="activity_ID.description" caption="Activity Type" cssClass="myClass"
                     alignment="center"></dxi-column>
+                <dxi-column dataField="personactivity_WEBLINK" caption="WebLink" cssClass="myClass"
+                    [allowEditing]="false"></dxi-column>
+
                 <dxi-column [width]="100" dataField="isactive" caption="Active" cssClass="myClass" alignment="center">
                 </dxi-column>
 
@@ -61,7 +61,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">
-                        <i class="fa fa-plus" aria-hidden="true"></i> Add New Activity
+                        <i class="fa fa-plus" aria-hidden="true"></i> Add New Contact
                     </h5>
                     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true"> ×</span>
@@ -74,14 +74,25 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="control-label"> Web link <span style="color:red">*</span></label>
+                        <label class="control-label"> WebLink <span style="color:red">*</span></label>
                         <input type="text" class="form-control" name="personactivity_WEBLINK"
                             [(ngModel)]="personactivity.personactivity_WEBLINK" maxlength="50" required>
                     </div>
                 </div>
             </div>
-            
-            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label class="control-label">
+                                <input type="checkbox" [checked]="personactivity.isactive"
+                                    [(ngModel)]="personactivity.isactive" name="isactive">
+                                Active
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-primary" [disabled]="f.invalid">
@@ -100,7 +111,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Activity
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Contact
                     </h5>
                     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true"> ×</span>
@@ -109,18 +120,29 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col-md-6">
-                    <app-activity #editactivity [activityID]=personactivity.activity_ID.id
-                        [iscompulsory]="true"></app-activity>
+                    <app-activity #editactivity [activityID]=personactivity.activity_ID.id [iscompulsory]="true"></app-activity>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="control-label"> Weblink <span style="color:red">*</span></label>
+                        <label class="control-label"> Person WebLink <span style="color:red">*</span></label>
                         <input type="text" class="form-control" name="personactivity_WEBLINK"
                             [(ngModel)]="personactivity.personactivity_WEBLINK" maxlength="50" required>
                     </div>
                 </div>
             </div>
-          
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label class="control-label">
+                                <input type="checkbox" [checked]="personactivity.isactive"
+                                    [(ngModel)]="personactivity.isactive" name="isactive">
+                                Active
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-primary" [disabled]="f.invalid">
@@ -138,18 +160,18 @@
         <div class="card-header">
             <div class="align-items-center row">
                 <div class="col" *ngIf="personactivity.personactivity_ID==0">
-                    <a href="javascript:void" aria-controls="collapse-personactivity" aria-expanded="true"
-                        class="card-title">Add New Activity
+                    <a href="javascript:void" aria-controls="collapse-personactivityinfo1" aria-expanded="true"
+                        class="card-title">Add New Contact
                     </a>
                 </div>
                 <div class="col" *ngIf="personactivity.personactivity_ID!=0 && disabled==false">
-                    <a href="javascript:void" aria-controls="collapse-personactivity" aria-expanded="true"
-                        class="card-title">Edit Activity
+                    <a href="javascript:void" aria-controls="collapse-personactivityinfo1" aria-expanded="true"
+                        class="card-title">Edit Contact
                     </a>
                 </div>
                 <div class="col" *ngIf="personactivity.personactivity_ID!=0 && disabled==true">
-                    <a href="javascript:void" aria-controls="collapse-personactivity" aria-expanded="true"
-                        class="card-title">Activity Detail
+                    <a href="javascript:void" aria-controls="collapse-personactivityinfo1" aria-expanded="true"
+                        class="card-title">Contact Detail
                     </a>
                 </div>
             </div>
@@ -164,7 +186,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label"> Weblink <span
+                                <label class="control-label"> Person WebLink <span
                                         style="color:red">*</span></label>
                                 <input type="text" class="form-control" name="personactivity_WEBLINK"
                                     [(ngModel)]="personactivity.personactivity_WEBLINK" [disabled]="disabled" maxlength="50"
