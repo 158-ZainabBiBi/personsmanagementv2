@@ -31,6 +31,8 @@ export class PersonactivityComponent implements OnInit {
   @Input()
   all: boolean = false;
   @Input()
+  personID = null;
+  @Input()
   personactivityID = null;
 
 
@@ -54,7 +56,7 @@ export class PersonactivityComponent implements OnInit {
  
 
   constructor(
-    private personactivityService: PersonactivityService,
+    private personactivityservice: PersonactivityService,
     private lookupservice: LookupService,
     private toastrservice: ToastrService,
     private onfailservice: OnFailService,
@@ -147,12 +149,12 @@ export class PersonactivityComponent implements OnInit {
   }
 
   personactivityGet() {
-    this.personactivityService.get().subscribe(response => {
+    this.personactivityservice.get().subscribe(response => {
       if (response) {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          response = this.personactivityService.getAllDetail(response);
+          response = this.personactivityservice.getAllDetail(response);
           this.setPersonactivities(response);
         }
       }
@@ -162,12 +164,12 @@ export class PersonactivityComponent implements OnInit {
   }
 
   personactivityGetAll() {
-    this.personactivityService.getAll().subscribe(response => {
+    this.personactivityservice.getAll().subscribe(response => {
       if (response) {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          response = this.personactivityService.getAllDetail(response);
+          response = this.personactivityservice.getAllDetail(response);
           this.setPersonactivities(response);
         }
       }
@@ -177,12 +179,12 @@ export class PersonactivityComponent implements OnInit {
   }
 
   personactivityGetOne(id) {
-    this.personactivityService.getOne(id).subscribe(response => {
+    this.personactivityservice.getOne(id).subscribe(response => {
       if (response) {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          response = this.personactivityService.getDetail(response);
+          response = this.personactivityservice.getDetail(response);
           this.personactivity = response;
           this.disabled = true;
         }
@@ -197,7 +199,7 @@ export class PersonactivityComponent implements OnInit {
   personactivityAdd(personactivity) {
     personactivity.activity_ID = this.addactivity.activityID;
    personactivity.person_ID =this.addperson.personID;
-    this.personactivityService.add(personactivity).subscribe(response => {
+    this.personactivityservice.add(personactivity).subscribe(response => {
       if (response) {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
@@ -222,7 +224,7 @@ export class PersonactivityComponent implements OnInit {
     } else {
       personactivity.isactive = "N";
     }
-    this.personactivityService.update(personactivity, personactivity.personactivity_ID).subscribe(response => {
+    this.personactivityservice.update(personactivity, personactivity.personactivity_ID).subscribe(response => {
       if (response) {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);

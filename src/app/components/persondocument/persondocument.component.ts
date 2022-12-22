@@ -40,6 +40,8 @@ export class PersondocumentComponent implements OnInit {
   @Input()
   all: boolean = false;
   @Input()
+  personID = null;
+  @Input()
   persondocumentID = null;
 
 
@@ -66,7 +68,7 @@ export class PersondocumentComponent implements OnInit {
  
 
   constructor(
-    private persondocumentService: PersondocumentService,
+    private persondocumentservice: PersondocumentService,
     private lookupservice: LookupService,
     private toastrservice: ToastrService,
     private onfailservice: OnFailService,
@@ -149,17 +151,17 @@ export class PersondocumentComponent implements OnInit {
       if (response.filetype_ID != null)
       this.persondocument.filetype_ID = response.filetype_ID.id;
 
-      if (response.is_ARCHIVED == "Y") {
-        this.persondocument.is_ARCHIVED = true;
-      } else {
-        this.persondocument.is_ARCHIVED = false;
-      }
+      // if (response.is_ARCHIVED == "Y") {
+      //   this.persondocument.is_ARCHIVED = true;
+      // } else {
+      //   this.persondocument.is_ARCHIVED = false;
+      // }
 
-      if (response.is_VERIFIED == "Y") {
-        this.persondocument.is_VERIFIED = true;
-      } else {
-        this.persondocument.is_VERIFIED = false;
-      }
+      // if (response.is_VERIFIED == "Y") {
+      //   this.persondocument.is_VERIFIED = true;
+      // } else {
+      //   this.persondocument.is_VERIFIED = false;
+      // }
 
     if (response.isactive == "Y") {
       this.persondocument.isactive = true;
@@ -169,12 +171,12 @@ export class PersondocumentComponent implements OnInit {
   }
 
   persondocumentGet() {
-    this.persondocumentService.get().subscribe(response => {
+    this.persondocumentservice.get().subscribe(response => {
       if (response) {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          response = this.persondocumentService.getAllDetail(response);
+          response = this.persondocumentservice.getAllDetail(response);
           this.setPersondocuments(response);
         }
       }
@@ -184,12 +186,12 @@ export class PersondocumentComponent implements OnInit {
   }
 
   persondocumentGetAll() {
-    this.persondocumentService.getAll().subscribe(response => {
+    this.persondocumentservice.getAll().subscribe(response => {
       if (response) {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          response = this.persondocumentService.getAllDetail(response);
+          response = this.persondocumentservice.getAllDetail(response);
           this.setPersondocuments(response);
         }
       }
@@ -199,12 +201,12 @@ export class PersondocumentComponent implements OnInit {
   }
 
   persondocumentGetOne(id) {
-    this.persondocumentService.getOne(id).subscribe(response => {
+    this.persondocumentservice.getOne(id).subscribe(response => {
       if (response) {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          response = this.persondocumentService.getDetail(response);
+          response = this.persondocumentservice.getDetail(response);
           this.persondocument = response;
           this.disabled = true;
         }
@@ -222,11 +224,11 @@ export class PersondocumentComponent implements OnInit {
     persondocument.filetype_ID = this.addfiletype.filetypeID;
   
    
-    this.persondocumentService.add(persondocument).subscribe(response => {
+    this.persondocumentservice.add(persondocument).subscribe(response => {
       if (response) {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
-        } else if (response.activity_ID) {
+        } else if (response.persondocument_ID) {
           this.toastrservice.success("Success", "New persondocument Added");
           this.persondocumentGetAll();
         } else {
@@ -244,22 +246,22 @@ export class PersondocumentComponent implements OnInit {
     persondocument.filetype_ID = this.addfiletype.filetypeID;
   
     console.log(persondocument);
-    if (persondocument.is_VERIFIED == true) {
-      persondocument.is_VERIFIED = "Y";
-    } else {
-      persondocument.is_VERIFIED = "N";
-    }
-    if (persondocument.is_ARCHIVED == true) {
-      persondocument.is_ARCHIVED = "Y";
-    } else {
-      persondocument.is_ARCHIVED = "N";
-    }
+    // if (persondocument.is_VERIFIED == true) {
+    //   persondocument.is_VERIFIED = "Y";
+    // } else {
+    //   persondocument.is_VERIFIED = "N";
+    // }
+    // if (persondocument.is_ARCHIVED == true) {
+    //   persondocument.is_ARCHIVED = "Y";
+    // } else {
+    //   persondocument.is_ARCHIVED = "N";
+    // }
     if (persondocument.isactive == true) {
       persondocument.isactive = "Y";
     } else {
       persondocument.isactive = "N";
     }
-    this.persondocumentService.update(persondocument, persondocument.persondocument_ID).subscribe(response => {
+    this.persondocumentservice.update(persondocument, persondocument.persondocument_ID).subscribe(response => {
       if (response) {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
@@ -276,5 +278,74 @@ export class PersondocumentComponent implements OnInit {
   }
 
  
+  persondocumentSearch(str) {
+    var search = {
+      search: str
+    }
+    this.persondocumentservice.search(search).subscribe(response => {
+      if (response) {
+        if (response.error && response.status) {
+          this.toastrservice.warning("Message", " " + response.message);
+        } else{
+          this.setPersondocuments(this.persondocumentservice.getAllDetail(response));
+        }
+      }
+    }, error => {
+      this.onfailservice.onFail(error);
+    })
+  }
+
+  persondocumentSearchAll(str) {
+    var search = {
+      search: str
+    }
+    this.persondocumentservice.searchAll(search).subscribe(response => {
+      if (response) {
+        if (response.error && response.status) {
+          this.toastrservice.warning("Message", " " + response.message);
+        } else{
+          this.setPersondocuments(this.persondocumentservice.getAllDetail(response));
+        }
+      }
+    }, error => {
+      this.onfailservice.onFail(error);
+    })
+  }
+
+  persondocumentAdvanceSearch(personID) {
+    this.personID = personID;
+    var search = {
+      person_ID: personID
+    }
+    this.persondocumentservice.advancedSearch(search).subscribe(response => {
+      if (response) {
+        if (response.error && response.status) {
+          this.toastrservice.warning("Message", " " + response.message);
+        } else{
+          this.setPersondocuments(this.persondocumentservice.getAllDetail(response));
+        }
+      }
+    }, error => {
+      this.onfailservice.onFail(error);
+    })
+  }
+
+  personcontactAdvancedSearchAll(personID) {
+    this.personID = personID;
+    var search = {
+      person_ID: personID
+    }
+    this.persondocumentservice.advancedSearchAll(search).subscribe(response => {
+      if (response) {
+        if (response.error && response.status) {
+          this.toastrservice.warning("Message", " " + response.message);
+        } else{
+          this.setPersondocuments(this.persondocumentservice.getAllDetail(response));
+        }
+      }
+    }, error => {
+      this.onfailservice.onFail(error);
+    })
+  }
 
 }

@@ -1,21 +1,23 @@
 
 
 <div *ngIf="view==1" class="form-group">
-    <label class="custom-label form-label">Person Document
+    <label class="custom-label form-label">Person document
         <span style="color: red;" [hidden]="disabled" *ngIf="iscompulsory==true">*</span>
     </label>
     <div class="row">
         <div class="col-md-10">
-            <ng-select [(ngModel)]="personactivityID" [disabled]="disabled" name="personactivityID">
-                <ng-option *ngFor="let persondocument of personactivities" [value]="persondocument.persondocument_ID"
+            <ng-select [(ngModel)]="persondocumentID" [disabled]="disabled" name="persondocumentID">
+                <ng-option *ngFor="let persondocument of persondocuments" [value]="persondocument.personcontact_ID"
                     [disabled]="disabled">
-                    {{ persondocument.documenttype_DESC }}
+                    {{ persondocument.contact_VALUE }}
                 </ng-option>
             </ng-select>
         </div>
         <div class="col-md-2">
-            <button type="button" class="btn btn-light ml-2" [hidden]="disabled" (click)="persondocumentGet()">
+            <button type="button" class="btn btn-light ml-2" [hidden]="disabled"
+                (click)="persondocumentAdvancedSearch(personID)">
                 <i class="fa fa-refresh" aria-hidden="true"></i>
+            </button>
         </div>
     </div>
 </div>

@@ -29,6 +29,8 @@ export class PersoncommunicationletterComponent implements OnInit {
   @Input()
   all: boolean = false;
   @Input()
+  personID = null;
+  @Input()
   personcommunicationletterID = null;
 
 

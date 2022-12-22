@@ -29,6 +29,8 @@ export class PersoncommunicationsmsComponent implements OnInit {
   @Input()
   all: boolean = false;
   @Input()
+  personID = null;
+  @Input()
   personcommunicationsmsID = null;
 
 
