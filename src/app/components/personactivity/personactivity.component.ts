@@ -112,7 +112,7 @@ export class PersonactivityComponent implements OnInit {
     this.edit.next(row);
   }
 
-  setPersonContact(response) {
+  setPersonactivity(response) {
     if (response.person_ID != null)
     this.personactivity.person_ID = response.person_ID;
 
@@ -128,7 +128,7 @@ export class PersonactivityComponent implements OnInit {
     this.disabled = true;
   }
 
-  setPersonContacts(response) {
+  setPersonactivitys(response) {
     for (var i=0; i<response.length; i++) {
       response[i].person = JSON.parse(response[i].person_DETAIL);
     }
@@ -148,7 +148,7 @@ export class PersonactivityComponent implements OnInit {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          this.setPersonContact(response);
+          this.setPersonactivity(response);
         }
       }
     }, error => {
@@ -162,7 +162,7 @@ export class PersonactivityComponent implements OnInit {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          this.setPersonContact(response);
+          this.setPersonactivity(response);
         }
       }
     }, error => {
@@ -176,7 +176,7 @@ export class PersonactivityComponent implements OnInit {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          this.setPersonContact(this.personactivityservice.getDetail(response));
+          this.setPersonactivity(this.personactivityservice.getDetail(response));
         }
       }
     }, error => {
@@ -238,7 +238,7 @@ export class PersonactivityComponent implements OnInit {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          this.setPersonContacts(this.personactivityservice.getAllDetail(response));
+          this.setPersonactivitys(this.personactivityservice.getAllDetail(response));
         }
       }
     }, error => {
@@ -255,7 +255,7 @@ export class PersonactivityComponent implements OnInit {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          this.setPersonContacts(this.personactivityservice.getAllDetail(response));
+          this.setPersonactivitys(this.personactivityservice.getAllDetail(response));
         }
       }
     }, error => {
@@ -273,7 +273,7 @@ export class PersonactivityComponent implements OnInit {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          this.setPersonContacts(this.personactivityservice.getAllDetail(response));
+          this.setPersonactivitys(this.personactivityservice.getAllDetail(response));
         }
       }
     }, error => {
@@ -291,7 +291,7 @@ export class PersonactivityComponent implements OnInit {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          this.setPersonContacts(this.personactivityservice.getAllDetail(response));
+          this.setPersonactivitys(this.personactivityservice.getAllDetail(response));
         }
       }
     }, error => {
