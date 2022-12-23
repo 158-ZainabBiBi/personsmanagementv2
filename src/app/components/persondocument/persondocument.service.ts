@@ -120,14 +120,14 @@ export class PersondocumentService {
 
   getAllDetail(response) {
     for (var a = 0; a < response.length; a++) {
-      response[a].persondocument = JSON.parse(response[a].person_DETAIL);
+      response[a].person = JSON.parse(response[a].person_DETAIL);
       response[a].person_DETAIL = null;
     }
     return(response);
   }
 
   getDetail(response) {
-    response.persondocument = JSON.parse(response.person_DETAIL);
+    response.person = JSON.parse(response.person_DETAIL);
     response.person_DETAIL = null;
 
     return(response);

@@ -116,15 +116,15 @@ export class  PersoncommunicationsmsService {
 
   getAllDetail(response) {
     for (var a = 0; a < response.length; a++) {
-      response[a].person = JSON.parse(response[a].person_DETAIL);
-      response[a].person_DETAIL = null;
+      response[a].personcontact = JSON.parse(response[a].personcontact_DETAIL);
+      response[a].personcontact_DETAIL = null;
     }
     return(response);
   }
 
   getDetail(response) {
-    response.person = JSON.parse(response.person_DETAIL);
-    response.person_DETAIL = null;
+    response.personcontact = JSON.parse(response.person_DETAIL);
+    response.personcontact_DETAIL = null;
 
     return(response);
   }

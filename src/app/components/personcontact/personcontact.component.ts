@@ -133,33 +133,33 @@ export class PersoncontactComponent implements OnInit {
     this.cancel.next();
   }
 
-  // personcontactGet() {
-  //   this.personcontactservice.get().subscribe(response => {
-  //     if (response) {
-  //       if (response.error && response.status) {
-  //         this.toastrservice.warning("Message", " " + response.message);
-  //       } else{
-  //         this.setPersonContact(response);
-  //       }
-  //     }
-  //   }, error => {
-  //     this.onfailservice.onFail(error);
-  //   })
-  // }
+  personcontactGet() {
+    this.personcontactservice.get().subscribe(response => {
+      if (response) {
+        if (response.error && response.status) {
+          this.toastrservice.warning("Message", " " + response.message);
+        } else{
+          this.setPersonContact(response);
+        }
+      }
+    }, error => {
+      this.onfailservice.onFail(error);
+    })
+  }
 
-  // personcontactGetAll() {
-  //   this.personcontactservice.getAll().subscribe(response => {
-  //     if (response) {
-  //       if (response.error && response.status) {
-  //         this.toastrservice.warning("Message", " " + response.message);
-  //       } else{
-  //         this.setPersonContact(response);
-  //       }
-  //     }
-  //   }, error => {
-  //     this.onfailservice.onFail(error);
-  //   })
-  // }
+  personcontactGetAll() {
+    this.personcontactservice.getAll().subscribe(response => {
+      if (response) {
+        if (response.error && response.status) {
+          this.toastrservice.warning("Message", " " + response.message);
+        } else{
+          this.setPersonContact(response);
+        }
+      }
+    }, error => {
+      this.onfailservice.onFail(error);
+    })
+  }
 
   personcontactGetOne(id) {
     this.personcontactservice.getOne(id).subscribe(response => {

@@ -1,5 +1,3 @@
-
-
 <div *ngIf="view==1" class="form-group">
     <label class="custom-label form-label">Person Document
         <span style="color: red;" [hidden]="disabled" *ngIf="iscompulsory==true">*</span>
@@ -9,7 +7,7 @@
             <ng-select [(ngModel)]="persondocumentID" [disabled]="disabled" name="persondocumentID">
                 <ng-option *ngFor="let persondocument of persondocuments" [value]="persondocument.personcontact_ID"
                     [disabled]="disabled">
-                    {{ persondocument.contact_VALUE }}
+                    {{ persondocument.documenttype_DESC }}
                 </ng-option>
             </ng-select>
         </div>

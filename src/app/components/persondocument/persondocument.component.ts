@@ -1,18 +1,15 @@
 import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-
+import { redirectByHref } from 'src/app/utilities/Shared_Funtions';
+import { setting } from 'src/app/setting';
 import { OnFailService } from '../../services/on-fail.service';
 import { LookupService } from '../../services/lookup.service';
 
-
 import { PersondocumentService } from './persondocument.service';
 import { PersonComponent } from '../person/person.component';
-//import { ActivityComponent } from '../activity/activity.component';
 import { DocumenttypeComponent } from '../documenttype/documenttype.component';
 import { FiletypeComponent } from '../filetype/filetype.component';
-import { redirectByHref } from 'src/app/utilities/Shared_Funtions';
-import { setting } from 'src/app/setting';
 
 @Component({
   selector: 'app-persondocument',
@@ -20,7 +17,6 @@ import { setting } from 'src/app/setting';
   styleUrls: ['./persondocument.component.css']
 })
 export class PersondocumentComponent implements OnInit {
-
   @ViewChild("documenttype") documenttype: DocumenttypeComponent;
   @ViewChild("adddocumenttype") adddocumenttype: DocumenttypeComponent;
   @ViewChild("editdocumenttype") editdocumenttype: DocumenttypeComponent;
@@ -46,11 +42,8 @@ export class PersondocumentComponent implements OnInit {
   @Input()
   persondocumentID = null;
 
-
   @Output() edit = new EventEmitter();
   @Output() cancel = new EventEmitter();
-  
-
   
   persondocuments = [];
   persondocumentsAll = [];
@@ -67,7 +60,6 @@ export class PersondocumentComponent implements OnInit {
     isactive: true
   }
  
-
   constructor(
     private persondocumentservice: PersondocumentService,
     private lookupservice: LookupService,
@@ -230,7 +222,6 @@ export class PersondocumentComponent implements OnInit {
     persondocument.documenttype_ID = this.adddocumenttype.documenttypeID;
     persondocument.filetype_ID = this.addfiletype.filetypeID;
   
-   
     this.persondocumentservice.add(persondocument).subscribe(response => {
       if (response) {
         if (response.error && response.status) {

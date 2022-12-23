@@ -30,16 +30,16 @@ import { LocationleveltypeComponent } from 'src/app/components/locationleveltype
 import { LocationsearchfilterComponent } from 'src/app/components/locationsearchfilter/locationsearchfilter.component';
 
 import { ContacttypeComponent } from 'src/app/components/contacttype/contacttype.component';
+import { ActivityComponent } from '../../components/activity/activity.component';
+import { DocumenttypeComponent } from '../../components/documenttype/documenttype.component';
+import { FiletypeComponent } from '../../components/filetype/filetype.component';
 
 import { PersonComponent } from 'src/app/components/person/person.component';
 import { PersontitleComponent } from 'src/app/components/persontitle/persontitle.component';
 import { PersoncontactComponent } from 'src/app/components/personcontact/personcontact.component';
 import { PersoncontactaddressComponent } from 'src/app/components/personcontactaddress/personcontactaddress.component';
 import { PersonactivityComponent } from '../../components/personactivity/personactivity.component';
-import { ActivityComponent } from '../../components/activity/activity.component';
 import { PersondocumentComponent } from '../../components/persondocument/persondocument.component';
-import { DocumenttypeComponent } from '../../components/documenttype/documenttype.component';
-import { FiletypeComponent } from '../../components/filetype/filetype.component';
 import { PersoncommunicationsmsComponent } from '../../components/personcommunicationsms/personcommunicationsms.component';
 import { PersoncommunicationletterComponent } from '../../components/personcommunicationletter/personcommunicationletter.component';
 
@@ -75,25 +75,18 @@ import { PersoncommunicationletterComponent } from '../../components/personcommu
     LocationsearchfilterComponent,
 
     ContacttypeComponent,
+    ActivityComponent,
+    DocumenttypeComponent,
+    FiletypeComponent,
     
     PersonComponent,
     PersontitleComponent,
     PersoncontactComponent,
     PersoncontactaddressComponent,
     PersonactivityComponent,
-    ActivityComponent,
     PersondocumentComponent,
-    DocumenttypeComponent,
-    FiletypeComponent,
     PersoncommunicationsmsComponent,
     PersoncommunicationletterComponent,
-    
-    
-    
-    
-
-    
-   
   ]
 })
 

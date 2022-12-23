@@ -1,16 +1,13 @@
 import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-
 import { OnFailService } from '../../services/on-fail.service';
 import { LookupService } from '../../services/lookup.service';
-
-
-import { PersoncommunicationsmsService } from './personcommunicationsms.service';
-import { PersoncontactComponent } from '../personcontact/personcontact.component';
 import { redirectByHref } from 'src/app/utilities/Shared_Funtions';
 import { setting } from 'src/app/setting';
 
+import { PersoncommunicationsmsService } from './personcommunicationsms.service';
+import { PersoncontactComponent } from '../personcontact/personcontact.component';
 
 @Component({
   selector: 'app-personcommunicationsms',
@@ -31,15 +28,10 @@ export class PersoncommunicationsmsComponent implements OnInit {
   @Input()
   all: boolean = false;
   @Input()
-  personcontactID = null;//isma person ID ni ha to phir ya to ni aye gi uski jga personcontactID
-  @Input()
   personcommunicationsmsID = null;
-
 
   @Output() edit = new EventEmitter();
   @Output() cancel = new EventEmitter();
-  
-
   
   personcommunicationsmss = [];
   personcommunicationsmssAll = [];
@@ -53,7 +45,6 @@ export class PersoncommunicationsmsComponent implements OnInit {
   
   }
  
-
   constructor(
     private personcommunicationsmsservice: PersoncommunicationsmsService,
     private lookupservice: LookupService,
@@ -63,21 +54,9 @@ export class PersoncommunicationsmsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (!this.personcontactID && Number(window.sessionStorage.getItem('person'))>0) {
-      this.personcontactID = Number(window.sessionStorage.getItem('person'));
-    } else {
-      redirectByHref(setting.redirctPath+"/#/home/personal");
-    }
-
     this.personcommunicationsmss = JSON.parse(window.sessionStorage.getItem('personcommunicationsmss'));
     this.personcommunicationsmssAll = JSON.parse(window.sessionStorage.getItem('personcommunicationsmssAll'));
-    if (this.view == 1 && this.personcommunicationsmss == null) {
-      this.personcommunicationsmsAdvancedSearch(this.personcontactID);
-    } else if (this.view == 2 && this.personcommunicationsmssAll == null) {
-      this.personcommunicationsmsAdvancedSearchAll(this.personcontactID);
-    }
   }
-
 
   onToolbarPreparing(e) {
     e.toolbarOptions.items.unshift(
@@ -87,11 +66,12 @@ export class PersoncommunicationsmsComponent implements OnInit {
         options: {
           width: 136,
           text: 'Refresh',
-          onClick: this.personcommunicationsmsAdvancedSearchAll.bind(this),
+          onClick: this.personcommunicationsmsGetAll.bind(this),
         },
       }
     );
   }
+
   editView() {
     this.disabled = false;
   }
@@ -116,12 +96,6 @@ export class PersoncommunicationsmsComponent implements OnInit {
     this.edit.next(row);
   }
 
-
-
-
- 
- 
-  
   setPersoncommunicationsms(response) {
     this.personcommunicationsms = response;
     if (response.personcontact_ID != null)
@@ -149,8 +123,6 @@ export class PersoncommunicationsmsComponent implements OnInit {
     this.cancel.next();
   }
 
-
-  
   personcommunicationsmsGet() {
     this.personcommunicationsmsservice.get().subscribe(response => {
       if (response) {
@@ -164,7 +136,6 @@ export class PersoncommunicationsmsComponent implements OnInit {
       this.onfailservice.onFail(error);
     })
 }
-
 
 personcommunicationsmsGetAll() {
   this.personcommunicationsmsservice.getAll().subscribe(response => {
@@ -193,7 +164,6 @@ personcommunicationsmsGetAll() {
     })
   }
 
- 
   personcommunicationsmsAdd(personcommunicationsms) {
     personcommunicationsms.isactive = "Y";
     personcommunicationsms.personcontact_ID = this.addperson.personcontactID;
@@ -203,7 +173,6 @@ personcommunicationsmsGetAll() {
           this.toastrservice.warning("Message", " " + response.message);
         } else if (response.personcommunicationsms_ID) {
           this.toastrservice.success("Success", "New Personcommunicationsms Added");
-          this.personcommunicationsmsAdvancedSearchAll(this.personcontactID);
         } else {
           this.toastrservice.error("Some thing went wrong");
         }
@@ -226,7 +195,6 @@ personcommunicationsmsGetAll() {
           this.toastrservice.warning("Message", " " + response.message);
         } else if (response.personcommunicationsms_ID) {
           this.toastrservice.success("Success", " personcommunicationsms Updated");
-          this.personcommunicationsmsAdvancedSearchAll(this.personcontactID);
         } else {
           this.toastrservice.error("Some thing went wrong");
         }
@@ -258,42 +226,6 @@ personcommunicationsmsGetAll() {
       search: str
     }
     this.personcommunicationsmsservice.searchAll(search).subscribe(response => {
-      if (response) {
-        if (response.error && response.status) {
-          this.toastrservice.warning("Message", " " + response.message);
-        } else{
-          this.setPersoncommunicationsmss(this.personcommunicationsmsservice.getAllDetail(response));
-        }
-      }
-    }, error => {
-      this.onfailservice.onFail(error);
-    })
-  }
-
-  personcommunicationsmsAdvancedSearch(personcontactID) {
-    this.personcontactID = personcontactID;
-    var search = {
-      person_ID: personcontactID
-    }
-    this.personcommunicationsmsservice.advancedSearch(search).subscribe(response => {
-      if (response) {
-        if (response.error && response.status) {
-          this.toastrservice.warning("Message", " " + response.message);
-        } else{
-          this.setPersoncommunicationsmss(this.personcommunicationsmsservice.getAllDetail(response));
-        }
-      }
-    }, error => {
-      this.onfailservice.onFail(error);
-    })
-  }
-
-  personcommunicationsmsAdvancedSearchAll(personcontactID) {
-    this.personcontactID = personcontactID;
-    var search = {
-      person_ID: personcontactID
-    }
-    this.personcommunicationsmsservice.advancedSearchAll(search).subscribe(response => {
       if (response) {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);

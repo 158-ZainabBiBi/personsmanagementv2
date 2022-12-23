@@ -50,7 +50,7 @@ export class PersoncommunicationletterComponent implements OnInit {
     letter_DATE: "",
     letter_CONTENT: "",
     letter_REFNO:null,
-    isletterapproved: null, 
+    isletterapproved: true, 
     letter_ID: null,
     letter_REQUESTDATE: "",
     isactive: true,
@@ -113,7 +113,7 @@ export class PersoncommunicationletterComponent implements OnInit {
       letter_DATE: "",
       letter_CONTENT: "",
       letter_REFNO:null,
-      isletterapproved: null,
+      isletterapproved: true,
       letter_ID: null,
       letter_REQUESTDATE: "",
       isactive: true,
@@ -141,6 +141,13 @@ export class PersoncommunicationletterComponent implements OnInit {
     this.personcommunicationletter = response;
     if (response.person_ID != null)
       this.personcommunicationletter.person_ID = response.person_ID;
+
+      if (response.isletterapproved == "Y") {
+        this.personcommunicationletter.isletterapproved = true;
+      } else {
+        this.personcommunicationletter.isletterapproved = false;
+      }
+    
     if (response.isactive == "Y") {
       this.personcommunicationletter.isactive = true;
     } else {
@@ -197,6 +204,12 @@ personcommunicationletterGetAll() {
   personcommunicationletterAdd(personcommunicationletter) {
     personcommunicationletter.isactive = "Y";
     personcommunicationletter.person_ID = this.addperson.personID;
+    if (personcommunicationletter.isletterapproved == true) {
+      personcommunicationletter.isletterapproved = "Y";
+    } else {
+      personcommunicationletter.isletterapproved = "N";
+    }
+
     this.personcommunicationletterservice.add(personcommunicationletter).subscribe(response => {
       if (response) {
         if (response.error && response.status) {
@@ -215,6 +228,11 @@ personcommunicationletterGetAll() {
 
    personcommunicationletterUpdate(personcommunicationletter) {
     personcommunicationletter.person_ID = this.editperson.personID;
+    if (personcommunicationletter.isletterapproved == true) {
+      personcommunicationletter.isletterapproved = "Y";
+    } else {
+      personcommunicationletter.isletterapproved = "N";
+    }
     if (personcommunicationletter.isactive == true) {
       personcommunicationletter.isactive = "Y";
     } else {
