@@ -8,6 +8,8 @@ import { LookupService } from '../../services/lookup.service';
 
 import { PersoncommunicationletterService } from './personcommunicationletter.service';
 import { PersonComponent } from '../person/person.component';
+import { redirectByHref } from 'src/app/utilities/Shared_Funtions';
+import { setting } from 'src/app/setting';
 
 
 @Component({
@@ -66,19 +68,18 @@ export class PersoncommunicationletterComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (!this.personID && Number(window.sessionStorage.getItem('person'))>0) {
+      this.personID = Number(window.sessionStorage.getItem('person'));
+    } else {
+      redirectByHref(setting.redirctPath+"/#/home/personal");
+    }
+
     this.personcommunicationletters = JSON.parse(window.sessionStorage.getItem('personcommunicationletters'));
     this.personcommunicationlettersAll = JSON.parse(window.sessionStorage.getItem('personcommunicationlettersAll'));
     if (this.view == 1 && this.personcommunicationletters == null) {
-      this.personcommunicationletterGet();
-    } else if (this. view == 2 && this.personcommunicationlettersAll == null) {
-      this.personcommunicationletterGetAll();
-    }
-
-    if (!this.personcommunicationletterID && Number(window.sessionStorage.getItem('personcommunicationletter'))>0) {
-      this.personcommunicationletterID = Number(window.sessionStorage.getItem('personcommunicationletter'));
-    }
-    if (this.personcommunicationletterID) {
-      window.sessionStorage.setItem("personcommunicationletter", this.personcommunicationletterID);
+      this.personcommunicationletterAdvancedSearch(this.personID);
+    } else if (this.view == 2 && this.personcommunicationlettersAll == null) {
+      this.personcommunicationletterAdvancedSearchAll(this.personID);
     }
   }
 
@@ -91,7 +92,7 @@ export class PersoncommunicationletterComponent implements OnInit {
         options: {
           width: 136,
           text: 'Refresh',
-          onClick: this.personcommunicationletterGetAll.bind(this),
+          onClick: this.personcommunicationletterAdvancedSearchAll.bind(this),
         },
       }
     );
@@ -155,7 +156,7 @@ export class PersoncommunicationletterComponent implements OnInit {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          this.setPersoncommunicationletters(response);
+          this.setPersoncommunicationletter(response);
         }
       }
     }, error => {
@@ -170,7 +171,7 @@ personcommunicationletterGetAll() {
       if (response.error && response.status) {
         this.toastrservice.warning("Message", " " + response.message);
       } else{
-        this.setPersoncommunicationletters(response);
+        this.setPersoncommunicationletter(response);
       }
     }
   }, error => {
@@ -184,9 +185,7 @@ personcommunicationletterGetAll() {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          response = this.personcommunicationletterservice.getDetail(response);
-          this.personcommunicationletter = response;
-          this.disabled = true;
+          this.setPersoncommunicationletter(this.personcommunicationletterservice.getDetail(response));
         }
       }
     }, error => {
@@ -204,7 +203,7 @@ personcommunicationletterGetAll() {
           this.toastrservice.warning("Message", " " + response.message);
         } else if (response.personcommunicationletter_ID) {
           this.toastrservice.success("Success", "New Personcommunicationletter Added");
-          this.personcommunicationletterGetAll();
+          this.personcommunicationletterAdvancedSearchAll(this.personID);
         } else {
           this.toastrservice.error("Some thing went wrong");
         }
@@ -227,7 +226,7 @@ personcommunicationletterGetAll() {
           this.toastrservice.warning("Message", " " + response.message);
         } else if (response.personcommunicationletter_ID) {
           this.toastrservice.success("Success", " Personcommunicationletter Updated");
-          this.personcommunicationletterGetAll();
+          this.personcommunicationletterAdvancedSearchAll(this.personID);
         } else {
           this.toastrservice.error("Some thing went wrong");
         }
@@ -236,7 +235,75 @@ personcommunicationletterGetAll() {
       this.onfailservice.onFail(error);
     })
   }
+  personcommunicationletterSearch(str) {
+    var search = {
+      search: str
+    }
+    this.personcommunicationletterservice.search(search).subscribe(response => {
+      if (response) {
+        if (response.error && response.status) {
+          this.toastrservice.warning("Message", " " + response.message);
+        } else{
+          this.setPersoncommunicationletters(this.personcommunicationletterservice.getAllDetail(response));
+        }
+      }
+    }, error => {
+      this.onfailservice.onFail(error);
+    })
+  }
 
+  personcommunicationletterSearchAll(str) {
+    var search = {
+      search: str
+    }
+    this.personcommunicationletterservice.searchAll(search).subscribe(response => {
+      if (response) {
+        if (response.error && response.status) {
+          this.toastrservice.warning("Message", " " + response.message);
+        } else{
+          this.setPersoncommunicationletters(this.personcommunicationletterservice.getAllDetail(response));
+        }
+      }
+    }, error => {
+      this.onfailservice.onFail(error);
+    })
+  }
+
+  personcommunicationletterAdvancedSearch(personID) {
+    this.personID = personID;
+    var search = {
+      person_ID: personID
+    }
+    this.personcommunicationletterservice.advancedSearch(search).subscribe(response => {
+      if (response) {
+        if (response.error && response.status) {
+          this.toastrservice.warning("Message", " " + response.message);
+        } else{
+          this.setPersoncommunicationletters(this.personcommunicationletterservice.getAllDetail(response));
+        }
+      }
+    }, error => {
+      this.onfailservice.onFail(error);
+    })
+  }
+
+  personcommunicationletterAdvancedSearchAll(personID) {
+    this.personID = personID;
+    var search = {
+      person_ID: personID
+    }
+    this.personcommunicationletterservice.advancedSearchAll(search).subscribe(response => {
+      if (response) {
+        if (response.error && response.status) {
+          this.toastrservice.warning("Message", " " + response.message);
+        } else{
+          this.setPersoncommunicationletters(this.personcommunicationletterservice.getAllDetail(response));
+        }
+      }
+    }, error => {
+      this.onfailservice.onFail(error);
+    })
+  }
  
 
 }

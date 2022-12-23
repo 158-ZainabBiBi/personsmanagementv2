@@ -30,7 +30,7 @@ export class FiletypeComponent implements OnInit {
   ngOnInit(): void {
     this.filetypes = JSON.parse(window.sessionStorage.getItem('filetypes'));
     if (this.filetypes == null) {
-      this.setfiletypeGet();
+      this.filetypeGet();
     }
   }
 
@@ -39,7 +39,7 @@ export class FiletypeComponent implements OnInit {
     window.sessionStorage.setItem("filetypes", JSON.stringify(this.filetypes));
   }
 
-  setfiletypeGet(){
+  filetypeGet(){
     this.lookupservice.lookup("FILETYPE").subscribe(response => {
       if (response) {
         if (response.error && response.status) {

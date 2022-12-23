@@ -11,6 +11,8 @@ import { PersonComponent } from '../person/person.component';
 //import { ActivityComponent } from '../activity/activity.component';
 import { DocumenttypeComponent } from '../documenttype/documenttype.component';
 import { FiletypeComponent } from '../filetype/filetype.component';
+import { redirectByHref } from 'src/app/utilities/Shared_Funtions';
+import { setting } from 'src/app/setting';
 
 @Component({
   selector: 'app-persondocument',
@@ -75,22 +77,20 @@ export class PersondocumentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (!this.personID && Number(window.sessionStorage.getItem('person'))>0) {
+      this.personID = Number(window.sessionStorage.getItem('person'));
+    } else {
+      redirectByHref(setting.redirctPath+"/#/home/personal");
+    }
+
     this.persondocuments = JSON.parse(window.sessionStorage.getItem('persondocuments'));
     this.persondocumentsAll = JSON.parse(window.sessionStorage.getItem('persondocumentsAll'));
     if (this.view == 1 && this.persondocuments == null) {
-      this.persondocumentGet();
-    } else if (this. view == 2 && this.persondocumentsAll == null) {
-      this.persondocumentGetAll();
-    }
-
-    if (!this.persondocumentID && Number(window.sessionStorage.getItem('persondocument'))>0) {
-      this.persondocumentID = Number(window.sessionStorage.getItem('persondocument'));
-    }
-    if (this.persondocumentID) {
-      window.sessionStorage.setItem("persondocument", this.persondocumentID);
+      this.persondocumentAdvancedSearch(this.personID);
+    } else if (this.view == 2 && this.persondocumentsAll == null) {
+      this.persondocumentAdvancedSearchAll(this.personID);
     }
   }
-
   onToolbarPreparing(e) {
     e.toolbarOptions.items.unshift(
       {
@@ -99,7 +99,7 @@ export class PersondocumentComponent implements OnInit {
         options: {
           width: 136,
           text: 'Refresh',
-          onClick: this.persondocumentGetAll.bind(this),
+          onClick: this.persondocumentAdvancedSearchAll.bind(this),
         },
       }
     );
@@ -134,17 +134,6 @@ export class PersondocumentComponent implements OnInit {
   }
 
  
-  setPersondocuments(response) {
-    if (this.view == 1) {
-      this.persondocuments = response;
-      window.sessionStorage.setItem("persondocuments", JSON.stringify(this.persondocuments));
-    } else {
-      this.persondocumentsAll = response;
-      window.sessionStorage.setItem("persondocumentsAll", JSON.stringify(this.persondocumentsAll));
-    }
-    this.cancel.next();
-  }
-  
   setPersondocument(response) {
     this.persondocument = response;
     if (response.person_ID != null)
@@ -174,7 +163,20 @@ export class PersondocumentComponent implements OnInit {
       this.persondocument.isactive = false;
     }
   }
-
+  setPersondocuments(response) {
+    for (var i=0; i<response.length; i++) {
+      response[i].person = JSON.parse(response[i].person_DETAIL);
+    }
+    if (this.view == 1) {
+      this.persondocuments = response;
+      window.sessionStorage.setItem("persondocuments", JSON.stringify(this.persondocuments));
+    } else {
+      this.persondocumentsAll = response;
+      window.sessionStorage.setItem("persondocumentsAll", JSON.stringify(this.persondocumentsAll));
+    }
+    this.cancel.next();
+  }
+  
   persondocumentGet() {
     this.persondocumentservice.get().subscribe(response => {
       if (response) {
@@ -182,7 +184,7 @@ export class PersondocumentComponent implements OnInit {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
           response = this.persondocumentservice.getAllDetail(response);
-          this.setPersondocuments(response);
+          this.setPersondocument(response);
         }
       }
     }, error => {
@@ -196,8 +198,8 @@ export class PersondocumentComponent implements OnInit {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          response = this.persondocumentservice.getAllDetail(response);
-          this.setPersondocuments(response);
+          
+          this.setPersondocument(response);
         }
       }
     }, error => {
@@ -211,8 +213,8 @@ export class PersondocumentComponent implements OnInit {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          response = this.persondocumentservice.getDetail(response);
-          this.persondocument = response;
+       
+          this.setPersondocument(response);
           this.disabled = true;
         }
       }
@@ -235,7 +237,7 @@ export class PersondocumentComponent implements OnInit {
           this.toastrservice.warning("Message", " " + response.message);
         } else if (response.persondocument_ID) {
           this.toastrservice.success("Success", "New persondocument Added");
-          this.persondocumentGetAll();
+          this.persondocumentAdvancedSearchAll(this.personID);
         } else {
           this.toastrservice.error("Some thing went wrong");
         }
@@ -251,16 +253,16 @@ export class PersondocumentComponent implements OnInit {
     persondocument.filetype_ID = this.addfiletype.filetypeID;
   
     console.log(persondocument);
-    // if (persondocument.is_VERIFIED == true) {
-    //   persondocument.is_VERIFIED = "Y";
-    // } else {
-    //   persondocument.is_VERIFIED = "N";
-    // }
-    // if (persondocument.is_ARCHIVED == true) {
-    //   persondocument.is_ARCHIVED = "Y";
-    // } else {
-    //   persondocument.is_ARCHIVED = "N";
-    // }
+    if (persondocument.is_VERIFIED == true) {
+      persondocument.is_VERIFIED = "Y";
+    } else {
+      persondocument.is_VERIFIED = "N";
+    }
+    if (persondocument.is_ARCHIVED == true) {
+      persondocument.is_ARCHIVED = "Y";
+    } else {
+      persondocument.is_ARCHIVED = "N";
+    }
     if (persondocument.isactive == true) {
       persondocument.isactive = "Y";
     } else {
@@ -272,7 +274,7 @@ export class PersondocumentComponent implements OnInit {
           this.toastrservice.warning("Message", " " + response.message);
         } else if (response.persondocument_ID) {
           this.toastrservice.success("Success", " persondocument Updated");
-          this.persondocumentGetAll();
+          this.persondocumentAdvancedSearchAll(this.personID);
         } else {
           this.toastrservice.error("Some thing went wrong");
         }
@@ -317,7 +319,7 @@ export class PersondocumentComponent implements OnInit {
     })
   }
 
-  persondocumentAdvanceSearch(personID) {
+  persondocumentAdvancedSearch(personID) {
     this.personID = personID;
     var search = {
       person_ID: personID
@@ -335,7 +337,7 @@ export class PersondocumentComponent implements OnInit {
     })
   }
 
-  personcontactAdvancedSearchAll(personID) {
+  persondocumentAdvancedSearchAll(personID) {
     this.personID = personID;
     var search = {
       person_ID: personID

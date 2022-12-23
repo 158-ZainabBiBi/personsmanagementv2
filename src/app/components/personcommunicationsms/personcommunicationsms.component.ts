@@ -8,6 +8,8 @@ import { LookupService } from '../../services/lookup.service';
 
 import { PersoncommunicationsmsService } from './personcommunicationsms.service';
 import { PersoncontactComponent } from '../personcontact/personcontact.component';
+import { redirectByHref } from 'src/app/utilities/Shared_Funtions';
+import { setting } from 'src/app/setting';
 
 
 @Component({
@@ -29,7 +31,7 @@ export class PersoncommunicationsmsComponent implements OnInit {
   @Input()
   all: boolean = false;
   @Input()
-  personID = null;
+  personcontactID = null;//isma person ID ni ha to phir ya to ni aye gi uski jga personcontactID
   @Input()
   personcommunicationsmsID = null;
 
@@ -61,19 +63,18 @@ export class PersoncommunicationsmsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (!this.personcontactID && Number(window.sessionStorage.getItem('person'))>0) {
+      this.personcontactID = Number(window.sessionStorage.getItem('person'));
+    } else {
+      redirectByHref(setting.redirctPath+"/#/home/personal");
+    }
+
     this.personcommunicationsmss = JSON.parse(window.sessionStorage.getItem('personcommunicationsmss'));
     this.personcommunicationsmssAll = JSON.parse(window.sessionStorage.getItem('personcommunicationsmssAll'));
     if (this.view == 1 && this.personcommunicationsmss == null) {
-      this.personcommunicationsmsGet();
-    } else if (this. view == 2 && this.personcommunicationsmssAll == null) {
-      this.personcommunicationsmsGetAll();
-    }
-
-    if (!this.personcommunicationsmsID && Number(window.sessionStorage.getItem('personcommunicationsms'))>0) {
-      this.personcommunicationsmsID = Number(window.sessionStorage.getItem('personcommunicationsms'));
-    }
-    if (this.personcommunicationsmsID) {
-      window.sessionStorage.setItem("personcommunicationsms", this.personcommunicationsmsID);
+      this.personcommunicationsmsAdvancedSearch(this.personcontactID);
+    } else if (this.view == 2 && this.personcommunicationsmssAll == null) {
+      this.personcommunicationsmsAdvancedSearchAll(this.personcontactID);
     }
   }
 
@@ -86,7 +87,7 @@ export class PersoncommunicationsmsComponent implements OnInit {
         options: {
           width: 136,
           text: 'Refresh',
-          onClick: this.personcommunicationsmsGetAll.bind(this),
+          onClick: this.personcommunicationsmsAdvancedSearchAll.bind(this),
         },
       }
     );
@@ -119,16 +120,7 @@ export class PersoncommunicationsmsComponent implements OnInit {
 
 
  
-  setPersoncommunicationsmss(response) {
-    if (this.view == 1) {
-      this.personcommunicationsmss = response;
-      window.sessionStorage.setItem("personcommunicationsmss", JSON.stringify(this.personcommunicationsmss));
-    } else {
-      this.personcommunicationsmssAll = response;
-      window.sessionStorage.setItem("personcommunicationsmssAll", JSON.stringify(this.personcommunicationsmssAll));
-    }
-    this.cancel.next();
-  }
+ 
   
   setPersoncommunicationsms(response) {
     this.personcommunicationsms = response;
@@ -142,6 +134,22 @@ export class PersoncommunicationsmsComponent implements OnInit {
     }
   }
 
+  setPersoncommunicationsmss(response) {
+    for (var i=0; i<response.length; i++) {
+      response[i].person = JSON.parse(response[i].person_DETAIL);
+    }
+      
+    if (this.view == 1) {
+      this.personcommunicationsmss = response;
+      window.sessionStorage.setItem("personcommunicationsmss", JSON.stringify(this.personcommunicationsmss));
+    } else {
+      this.personcommunicationsmssAll = response;
+      window.sessionStorage.setItem("personcommunicationsmssAll", JSON.stringify(this.personcommunicationsmssAll));
+    }
+    this.cancel.next();
+  }
+
+
   
   personcommunicationsmsGet() {
     this.personcommunicationsmsservice.get().subscribe(response => {
@@ -149,7 +157,7 @@ export class PersoncommunicationsmsComponent implements OnInit {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          this.setPersoncommunicationsmss(response);
+          this.setPersoncommunicationsms(response);
         }
       }
     }, error => {
@@ -164,7 +172,7 @@ personcommunicationsmsGetAll() {
       if (response.error && response.status) {
         this.toastrservice.warning("Message", " " + response.message);
       } else{
-        this.setPersoncommunicationsmss(response);
+        this.setPersoncommunicationsms(response);
       }
     }
   }, error => {
@@ -177,9 +185,7 @@ personcommunicationsmsGetAll() {
         if (response.error && response.status) {
           this.toastrservice.warning("Message", " " + response.message);
         } else{
-          response = this.personcommunicationsmsservice.getDetail(response);
-          this.personcommunicationsms = response;
-          this.disabled = true;
+          this.setPersoncommunicationsms(this.personcommunicationsmsservice.getDetail(response));
         }
       }
     }, error => {
@@ -197,7 +203,7 @@ personcommunicationsmsGetAll() {
           this.toastrservice.warning("Message", " " + response.message);
         } else if (response.personcommunicationsms_ID) {
           this.toastrservice.success("Success", "New Personcommunicationsms Added");
-          this.personcommunicationsmsGetAll();
+          this.personcommunicationsmsAdvancedSearchAll(this.personcontactID);
         } else {
           this.toastrservice.error("Some thing went wrong");
         }
@@ -220,7 +226,7 @@ personcommunicationsmsGetAll() {
           this.toastrservice.warning("Message", " " + response.message);
         } else if (response.personcommunicationsms_ID) {
           this.toastrservice.success("Success", " personcommunicationsms Updated");
-          this.personcommunicationsmsGetAll();
+          this.personcommunicationsmsAdvancedSearchAll(this.personcontactID);
         } else {
           this.toastrservice.error("Some thing went wrong");
         }
@@ -230,6 +236,74 @@ personcommunicationsmsGetAll() {
     })
   }
 
- 
+  personcommunicationsmsSearch(str) {
+    var search = {
+      search: str
+    }
+    this.personcommunicationsmsservice.search(search).subscribe(response => {
+      if (response) {
+        if (response.error && response.status) {
+          this.toastrservice.warning("Message", " " + response.message);
+        } else{
+          this.setPersoncommunicationsmss(this.personcommunicationsmsservice.getAllDetail(response));
+        }
+      }
+    }, error => {
+      this.onfailservice.onFail(error);
+    })
+  }
+
+  personcommunicationsmsSearchAll(str) {
+    var search = {
+      search: str
+    }
+    this.personcommunicationsmsservice.searchAll(search).subscribe(response => {
+      if (response) {
+        if (response.error && response.status) {
+          this.toastrservice.warning("Message", " " + response.message);
+        } else{
+          this.setPersoncommunicationsmss(this.personcommunicationsmsservice.getAllDetail(response));
+        }
+      }
+    }, error => {
+      this.onfailservice.onFail(error);
+    })
+  }
+
+  personcommunicationsmsAdvancedSearch(personcontactID) {
+    this.personcontactID = personcontactID;
+    var search = {
+      person_ID: personcontactID
+    }
+    this.personcommunicationsmsservice.advancedSearch(search).subscribe(response => {
+      if (response) {
+        if (response.error && response.status) {
+          this.toastrservice.warning("Message", " " + response.message);
+        } else{
+          this.setPersoncommunicationsmss(this.personcommunicationsmsservice.getAllDetail(response));
+        }
+      }
+    }, error => {
+      this.onfailservice.onFail(error);
+    })
+  }
+
+  personcommunicationsmsAdvancedSearchAll(personcontactID) {
+    this.personcontactID = personcontactID;
+    var search = {
+      person_ID: personcontactID
+    }
+    this.personcommunicationsmsservice.advancedSearchAll(search).subscribe(response => {
+      if (response) {
+        if (response.error && response.status) {
+          this.toastrservice.warning("Message", " " + response.message);
+        } else{
+          this.setPersoncommunicationsmss(this.personcommunicationsmsservice.getAllDetail(response));
+        }
+      }
+    }, error => {
+      this.onfailservice.onFail(error);
+    })
+  }
 
 }
