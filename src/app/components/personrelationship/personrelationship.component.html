@@ -1,0 +1,19 @@
+<div class="form-group">
+    <label class="custom-label form-label">personreference
+        <span style="color: red;" [hidden]="disabled" *ngIf="iscompulsory==true">*</span>
+    </label>
+    <div class="row">
+        <div class="col-md-10">
+            <ng-select [(ngModel)]="personreferenceID" [disabled]="disabled" name="personreferenceID" maxlength="50">
+                <ng-option *ngFor="let personreference of personreferences" [value]="personreference.id" [disabled]="disabled">
+                    {{ personreference.code }} - {{ personreference.description }}
+                </ng-option>
+            </ng-select>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-light ml-2" [hidden]="disabled" (click)="personreferenceGet()">
+                <i class="fa fa-refresh" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</div>

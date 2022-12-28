@@ -43,6 +43,14 @@ import { PersondocumentComponent } from '../../components/persondocument/persond
 import { PersoncommunicationsmsComponent } from '../../components/personcommunicationsms/personcommunicationsms.component';
 import { PersoncommunicationletterComponent } from '../../components/personcommunicationletter/personcommunicationletter.component';
 
+import { PersonchildrensComponent } from '../../modules/persons/personchildrens/personchildrens.component';
+import { PersoncommunicationmailsComponent } from '../../modules/persons/personcommunicationmails/personcommunicationmails.component';
+import { PersoncommunicationlettersComponent } from '../../modules/persons/personcommunicationletters/personcommunicationletters.component';
+import { PersoncommunicationsmssComponent } from '../../modules/persons/personcommunicationsmss/personcommunicationsmss.component';
+import { PersondocumentsComponent } from '../../modules/persons/persondocuments/persondocuments.component';
+import { PersoneducationinstitutesComponent } from '../../modules/persons/personeducationinstitutes/personeducationinstitutes.component';
+import { PersoneducationqualificationsComponent } from '../../modules/persons/personeducationqualifications/personeducationqualifications.component';
+
 @NgModule({
   imports: [
     HomeRoutingModule,
@@ -87,6 +95,14 @@ import { PersoncommunicationletterComponent } from '../../components/personcommu
     PersondocumentComponent,
     PersoncommunicationsmsComponent,
     PersoncommunicationletterComponent,
+
+    PersonchildrensComponent,
+    PersoncommunicationmailsComponent,
+    PersoncommunicationlettersComponent,
+    PersoncommunicationsmssComponent,
+    PersondocumentsComponent,
+    PersoneducationinstitutesComponent,
+    PersoneducationqualificationsComponent,
   ]
 })
 

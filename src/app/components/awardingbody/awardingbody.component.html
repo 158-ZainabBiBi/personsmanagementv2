@@ -1,0 +1,19 @@
+<div class="form-group">
+  <label class="custom-label form-label">Area Type
+      <span style="color: red;" [hidden]="disabled" *ngIf="iscompulsory==true">*</span>
+  </label>
+  <div class="row">
+      <div class="col-md-10">
+          <ng-select [(ngModel)]="awardingbodyID" [disabled]="disabled" name="awardingbodyID" maxlength="50">
+              <ng-option *ngFor="let awardingbody of awardingbodies" [value]="awardingbody.id" [disabled]="disabled">
+                  {{ awardingbody.code }} - {{ awardingbody.description }}
+              </ng-option>
+          </ng-select>
+      </div>
+      <div class="col-md-2">
+          <button type="button" class="btn btn-light ml-2" [hidden]="disabled" (click)="awardingbodyGet()">
+              <i class="fa fa-refresh" aria-hidden="true"></i>
+          </button>
+      </div>
+  </div>
+</div>

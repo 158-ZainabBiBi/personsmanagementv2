@@ -1,0 +1,340 @@
+<div *ngIf="view==1" class="form-group">
+  <label class="custom-label form-label">Person Equality
+      <span style="color: red;" [hidden]="disabled" *ngIf="iscompulsory==true">*</span>
+  </label>
+  <div class="row">
+      <div class="col-md-10">
+          <ng-select [(ngModel)]="personequalityID" [disabled]="disabled" name="personequalityID">
+              <ng-option *ngFor="let personequality of personequalities" [value]="personequality.personequality_ID" [disabled]="disabled">
+                {{ personequality.person_ID }} - {{ personequality.religion_ID }} - {{ personequality.nationality_ID }}
+              </ng-option>
+          </ng-select>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-light ml-2" [hidden]="disabled"
+        (click)="personequalityAdvancedSearch(personID)">
+        <i class="fa fa-refresh" aria-hidden="true"></i>
+    </button>
+      </div>
+  </div>
+</div>
+
+<div *ngIf="view==2" class="form-group">
+  <div class="outer-div">
+      <div class="grid-wrapper">
+          <dx-data-grid #grid id="gridContainer" [dataSource]="personequalitiesAll" keyExpr="personequality_ID" [showColumnLines]="true" [showRowLines]="true" [showBorders]="true" [rowAlternationEnabled]="true" [allowColumnResizing]="true" [columnMinWidth]="30"
+              [columnAutoWidth]="true" [remoteOperations]="true" height="600" width="100%" (onToolbarPreparing)="onToolbarPreparing($event)">
+              <dxo-filter-row [visible]="true"></dxo-filter-row>
+              <dxo-header-filter [visible]="true"></dxo-header-filter>
+              <dxo-search-panel [visible]="true"></dxo-search-panel>
+              <dxo-group-panel [visible]="false"></dxo-group-panel>
+              <dxo-grouping #expand [autoExpandAll]="false"></dxo-grouping>
+              <dxo-scrolling mode="virtual"></dxo-scrolling>
+              <dxo-sorting mode="multiple"></dxo-sorting>
+              <dxo-selection mode="single"></dxo-selection>
+
+              <dxi-column [width]="75" [allowFiltering]="false" [allowSorting]="false" alignment="center" cellTemplate="cellTemplate"></dxi-column>
+              <dxi-column dataField="date_OF_UK_ENTRY" caption="Date" cssClass="myClass" alignment="center" ></dxi-column>
+              <dxi-column dataField="ethnic_ID.description" caption="Ethnic" cssClass="myClass" alignment="left" ></dxi-column>
+              <dxi-column dataField="gender_ID.description" caption="Gender" cssClass="myClass" alignment="left" ></dxi-column>
+              <dxi-column dataField="religion_ID.description" caption="Religion" cssClass="myClass" alignment="left" ></dxi-column>
+              <dxi-column dataField="nationality_ID.description" caption="Nationality" cssClass="myClass" alignment="left" ></dxi-column>
+              <dxi-column dataField="maritalstatus_ID.description" caption="Marital Status" cssClass="myClass" alignment="left" ></dxi-column>
+  
+              <dxi-column dataField="disable_ID" caption="Disable ID" cssClass="myClass" alignment="center" ></dxi-column>
+              <dxi-column dataField="residential_ID" caption="Residential ID" cssClass="myClass" alignment="center" ></dxi-column>
+             <dxi-column dataField="immigrationstatus_ID" caption="Immigrationstatus ID" cssClass="myClass" alignment="center" ></dxi-column>
+              <dxi-column dataField="sex_ID.description" caption="sex ID" cssClass="myClass" alignment="center" ></dxi-column>
+             <dxi-column dataField="sexualorientation_ID" caption="Sexual Orientation ID" cssClass="myClass" alignment="center" ></dxi-column>
+              <dxi-column dataField="domicile_ID.description" caption="Domicile ID" cssClass="myClass" alignment="center" ></dxi-column>
+              <dxi-column dataField="armedforcesindicator_ID" caption="Armed Forces Indicator ID" cssClass="myClass" alignment="center" ></dxi-column>
+              <dxi-column dataField="lookedafterchildindicator_ID" caption="Looked After Child IndicatorID" cssClass="myClass" alignment="center" ></dxi-column>
+              <dxi-column dataField="convictiondetails" caption="Conviction Details" cssClass="myClass" alignment="center" ></dxi-column>
+              <dxi-column [width]="100" dataField="isactive" caption="Active" cssClass="myClass" alignment="center">
+              </dxi-column>
+
+              <div *dxTemplate="let data of 'cellTemplate'">
+                <a href="javascript:void" class="" (click)="update(data)">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+              </div>
+          </dx-data-grid>
+      </div>
+  </div>
+</div>
+
+<div *ngIf="view==3" class="form-group">
+  <form action="" class="form" (ngSubmit)="f.form.valid && personequalityAdd(personequality)" #f="ngForm" novalidate>
+      <div class="modal-body">
+          <div class="row">
+              <div class="col-md-12">
+               <app-maritalstatus #addmaritalstatus  [iscompulsory]="true"></app-maritalstatus>
+              </div>
+              <div class="col-md-6">
+                <app-ethnic #addethnic [iscompulsory]="true"></app-ethnic>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+                <app-gender #addgender [iscompulsory]="true"></app-gender>
+            </div>
+            <div class="col-md-6">
+              <app-religion #addreligion [iscompulsory]="true"></app-religion>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+                <app-nationality #addnationality [iscompulsory]="true"></app-nationality>
+            </div>
+            <div class="col-md-6">
+            <app-sex #sex [iscompulsory]="true"></app-sex>
+            </div>
+          </div>
+           <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label class="control-label"> Entry Date in UK <span style="color:red">*</span></label>
+                  <input type="date" class="form-control" name="date_OF_UK_ENTRY" [(ngModel)]="personequality.date_OF_UK_ENTRY" maxlength="50" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label"> Conviction Details </label>
+                    <input type="text" class="form-control" name="convictiondetails" [(ngModel)]="personequality.convictiondetails" maxlength="50" >
+                </div>
+            </div>
+        </div> 
+        <!-- <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label"> Disable ID </label>
+                <input type="text" class="form-control" name="disable_ID" [(ngModel)]="personequality.disable_ID" maxlength="50" >
+            </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label class="control-label"> Residential ID </label>
+                  <input type="text" class="form-control" name="residential_ID" [(ngModel)]="personequality.residential_ID" maxlength="50" >
+              </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label"> Immigration Status ID </label>
+                <input type="text" class="form-control" name="immigrationstatus_ID" [(ngModel)]="personequality.immigrationstatus_ID" maxlength="50" >
+            </div>
+          </div>
+        </div> -->
+
+
+        <div class="row">
+          
+          <div class="col-md-6">
+            <div class="form-group">
+              <app-sexualorientation #addsexualorientation [iscompulsory]="true" ></app-sexualorientation>
+             
+            </div>
+          </div>
+      
+          <div class="col-md-6">
+            <div class="form-group">
+              <app-domicile #adddomicile [iscompulsory]="true" ></app-domicile>
+  
+            </div>
+          </div>
+        </div>
+       
+      </div>
+      <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" [disabled]="f.invalid">
+              <i class="fa fa-plus" aria-hidden="true"></i> Add
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+  </form>
+</div>
+
+<div *ngIf="view==4" class="form-group">
+  <form action="" class="form" (ngSubmit)="f.form.valid && personequalityUpdate(personequality)" #f="ngForm" novalidate>
+      <div class="modal-body">
+          <div class="row">
+              <div class="col-md-6">
+                <app-maritalstatus #editmaritalstatus  [iscompulsory]="true"></app-maritalstatus>
+              </div>
+              <div class="col-md-6">
+                <app-ethnic #editethnic [ethnicID]=personequality.ethnic_ID.id [iscompulsory]="true"></app-ethnic>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <app-gender #editgender [genderID]=personequality.gender_ID.id [iscompulsory]="true"></app-gender>
+            </div>
+            <div class="col-md-6">
+              <app-religion #editreligion [religionID]=personequality.religion_ID.id [iscompulsory]="true"></app-religion>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <app-nationality #editnationality [nationalityID]=personequality.nationality_ID.id [iscompulsory]="true"></app-nationality>
+            </div>
+            <div class="col-md-6">
+              <app-sexualorientation #editsexualorientation [sexualorientationID]=personequality.sexualorientation_ID.id [iscompulsory]="true" ></app-sexualorientation>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label class="control-label"> Entry Date in UK <span style="color:red">*</span></label>
+                  <input type="date" class="form-control" name="date_OF_UK_ENTRY" [(ngModel)]="personequality.date_OF_UK_ENTRY" maxlength="50" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label"> Conviction Details </label>
+                    <input type="text" class="form-control" name="convictiondetails" [(ngModel)]="personequality.convictiondetails" maxlength="50" >
+                </div>
+            </div>
+        </div> 
+        
+          <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+  
+                    <app-sex #editsex [iscompulsory]="true"></app-sex>
+                    
+                </div>
+            </div>
+           
+            <div class="col-md-6">
+              <div class="form-group">
+                <app-domicile #editdomicile [domicileID]=personequality.domicile_ID.id [iscompulsory]="true"></app-domicile>
+
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label class="control-label">
+                            <input type="checkbox" [checked]="personequality.isactive"
+                                [(ngModel)]="personequality.isactive" name="isactive">
+                            Active
+                        </label>
+                    </div>
+                </div>
+            </div>
+          </div>
+      </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" [disabled]="f.invalid">
+              <i class="fa fa-plus" aria-hidden="true"></i> Update
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+  </form>
+</div>
+<div class="collapse-card-h container">
+  <div class="row">
+      <div class="col-md-12">
+          <div class="card-primary card">
+              <div class="card-header">
+                  <div class="align-items-center row">
+                      <div class="col" *ngIf="personequality.personequality_ID==0">
+                          <a href="javascript:void" aria-controls="collapse-customerinfo1" aria-expanded="true"
+                              class="card-title">Add Equality
+                          </a>
+                      </div>
+                      <div class="col" *ngIf="personequality.personequality_ID!=0 && disabled==false">
+                          <a href="javascript:void" aria-controls="collapse-customerinfo1" aria-expanded="true"
+                              class="card-title">Edit Equality
+                          </a>
+                      </div>
+                      <div class="col" *ngIf="personequality.personequality_ID!=0 && disabled==true">
+                          <a href="javascript:void" aria-controls="collapse-customerinfo1" aria-expanded="true"
+                              class="card-title">Equality Detail
+                          </a>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <app-sexualorientation #editsexualorientation [sexualorientationID]=personequality.sexualorientation_ID.id [iscompulsory]="true" ></app-sexualorientation>
+                  </div>
+                  <div class="col-md-6">
+                    <app-ethnic #editethnic [ethnicID]=personequality.ethnic_ID.id [iscompulsory]="true"></app-ethnic>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <app-gender #editgender [genderID]=personequality.gender_ID.id [iscompulsory]="true"></app-gender>
+                </div>
+                <div class="col-md-6">
+                  <app-religion #editreligion [religionID]=personequality.religion_ID.id [iscompulsory]="true"></app-religion>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <app-nationality #editnationality [nationalityID]=personequality.nationality_ID.id [iscompulsory]="true"></app-nationality>
+                </div>
+                <div class="col-md-6">
+                  <app-maritalstatus #editmaritalstatus [maritalstatusID]=personequality.maritalstatus_ID.id [iscompulsory]="true"></app-maritalstatus>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                      <label class="control-label"> Entry Date in UK <span style="color:red">*</span></label>
+                      <input type="date" class="form-control" name="date_OF_UK_ENTRY" [(ngModel)]="personequality.date_OF_UK_ENTRY" maxlength="50" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label"> Conviction Details </label>
+                        <input type="text" class="form-control" name="convictiondetails" [(ngModel)]="personequality.convictiondetails" maxlength="50" >
+                    </div>
+                </div>
+            </div> 
+
+              <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+      
+                        <app-sex #editsex [iscompulsory]="true"></app-sex>
+                        
+                    </div>
+                </div>
+               
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <app-domicile #editdomicile [domicileID]=personequality.domicile_ID.id [iscompulsory]="true"></app-domicile>
+    
+                  </div>
+                </div>
+              </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                          <button *ngIf="personequality.personequality_ID!=0 && disabled==true" (click)="editView()" id="cancel" class="btn btn-primary"
+                              style="float: right;"> Edit
+                          </button>
+                          <button *ngIf="disabled==false" type="button" (click)='cancelView()' style="float: right;"
+                              class="btn btn-light" data-dismiss="modal"> Cancel
+                          </button>
+                          <button *ngIf="personequality.personequality_ID!=0 && disabled==false" type="button" data-dismiss="modal"
+                              style=" margin-right: 10px; float: right;" (click)='personequalityUpdate(personequality)'
+                              class="btn btn-primary">
+                              Update
+                          </button>
+                          <button *ngIf="personequality.personequality_ID==0" type="button" data-dismiss="modal"
+                              style=" margin-right: 10px; float: right;" (click)='personequalityAdd(personequality)'
+                              class="btn btn-primary">
+                              Save
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
