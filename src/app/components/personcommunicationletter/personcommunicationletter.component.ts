@@ -46,7 +46,6 @@ export class PersoncommunicationletterComponent implements OnInit {
   personcommunicationletter = {
     personletter_ID: 0,
     person_ID: null,
-    person_DETAIL: "",
     letter_DATE: "",
     letter_CONTENT: "",
     letter_REFNO:null,
@@ -109,7 +108,6 @@ export class PersoncommunicationletterComponent implements OnInit {
     this.personcommunicationletter = {
       personletter_ID: 0,
       person_ID: null,
-      person_DETAIL: "",
       letter_DATE: "",
       letter_CONTENT: "",
       letter_REFNO:null,

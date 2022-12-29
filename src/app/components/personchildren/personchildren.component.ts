@@ -41,9 +41,7 @@ export class PersonchildrenComponent implements OnInit {
   personchildren = {
     personchildren_ID: 0,
     childrenperson_ID:null,
-    childrenperson_DETAIL: "",
     person_ID: null,
-    person_DETAIL:"",
     isactive: true
   }
   addchildrenperson: any;
@@ -97,11 +95,9 @@ export class PersonchildrenComponent implements OnInit {
   add() {
     this.personchildren = {
       personchildren_ID: 0,
-    childrenperson_ID:null,
-    childrenperson_DETAIL: "",
-    person_ID: null,
-    person_DETAIL:"",
-    isactive: true
+      childrenperson_ID:null,
+      person_ID: null,
+      isactive: true
     };
   }
 

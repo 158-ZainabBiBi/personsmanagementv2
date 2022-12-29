@@ -35,7 +35,6 @@ export class PersoncommunicationemailComponent implements OnInit {
   personcommunicationemail = {
     personemail_ID: 0,
     personcontact_ID: null,
-    personcontact_DETAIL: "",
     email_DATETIME: "",
     email_CONTENT: "",
     isactive: true,
@@ -92,7 +91,6 @@ export class PersoncommunicationemailComponent implements OnInit {
     this.personcommunicationemail = {
     personemail_ID: 0,
     personcontact_ID: null,
-    personcontact_DETAIL: "",
     email_DATETIME: "",
     email_CONTENT: "",
     isactive: true,

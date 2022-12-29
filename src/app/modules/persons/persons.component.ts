@@ -1,10 +1,8 @@
+
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { OnFailService } from '../../services/on-fail.service';
+import { Router } from '@angular/router';
 
 import { PersonComponent } from '../../components/person/person.component'
-import { PersonService } from '../../components/person/person.service';
-import { RouterLinkWithHref } from '@angular/router';
 
 declare var $: any;
 
@@ -19,51 +17,43 @@ export class PersonsComponent implements OnInit {
   @ViewChild("editperson") editperson: PersonComponent;
 
   constructor(
-    private personservice: PersonService,
-    private toastrservice: ToastrService,
-    private onfailservice: OnFailService,
+    private router : Router,
   ) { }
 
   ngOnInit(): void {
   }
 
-  view() {
+  view(row) {
+    this.router.navigate(["/home/person"], { queryParams: {person: row.data.person_ID}});
   }
 
   addNew() {
-    this.addperson.add();
-    $("#add").modal("show");
-  }
-  
-  edit(row) {
-    this.editperson.person = {
-      person_ID: row.data.person_ID,
-      title:row.data.title,
-      surname:row.data.surname,
-      previoussurname:row.data.previoussurname,
-      forenames: row.data.forenames,
-      middlename:row.data.middlename,
-      nickname:row.data.nickname,
-      birth_DATE:row.data.birth_DATE,
-      birth_TIME: row.data.birth_TIME,
-      birthplace_ID: row.data.birthplace_ID,
-      birthplaces: row.data.birthplaces,
-      personimg_PATH:row.data.personimg_PATH,
-      isactive: row.data.isactive
-    };
-    if (row.data.isactive=="Y") {
-      this.editperson.person.isactive = true;
-    } else {
-      this.editperson.person.isactive = false;
-    }
-    $("#edit").modal("show");
-  }
-  cancel() {
-    $("#add").modal("hide");
-    $("#edit").modal("hide");
+    this.router.navigate(["/home/person"], {});
   }
 
+//   edit(row) {
+//     this.editperson.person = {
+//       person_ID: row.data.person_ID,
+//       person_NAME: row.data.person_NAME,
+//       person_DESC: row.data.person_DESC,
+//       person_IMAGE: row.data.person_IMAGE,
+//       application_ID: row.data.application_ID,
+//       product_ID: row.data.product_ID,
+//       isactive: row.data.isactive
+//     };
+//     if (row.data.isactive=="Y") {
+//       this.editperson.person.isactive = true;
+//     } else {
+//       this.editperson.person.isactive = false;
+//     }
+//     $("#editperson").modal("show");
+//   }
+
+//   cancel() {
+//     $("#addperson").modal("hide");
+//     $("#editperson").modal("hide");
+//   }
+
+// }
 }
-
-
 

@@ -48,7 +48,6 @@ export class PersonactivityComponent implements OnInit {
     },
     personactivity_WEBLINK: null,
     person_ID: null,
-    person_DETAIL:"",
     isactive: true
   }
 
@@ -103,7 +102,6 @@ export class PersonactivityComponent implements OnInit {
       activity_ID: null,
       personactivity_WEBLINK: null,
       person_ID: null,
-      person_DETAIL:"",
       isactive: true
     };
   }

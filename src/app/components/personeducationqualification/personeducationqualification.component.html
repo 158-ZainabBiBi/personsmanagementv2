@@ -37,7 +37,7 @@
               <dxi-column dataField="personqualification_RESULT" caption="Result" cssClass="myClass" alignment="center" [allowEditing]="false"></dxi-column>
               <dxi-column dataField="qualifcation_ID.description" caption="Qualification" cssClass="myClass" alignment="left" [allowEditing]="false"></dxi-column>
               <dxi-column dataField="awardingbody_ID.description" caption="Awardingbody" cssClass="myClass" alignment="left" [allowEditing]="false"></dxi-column>
-              <dxi-column dataField="personqualificationcountry_ID.description" caption="Qualification Country" cssClass="myClass" alignment="left" [allowEditing]="false"></dxi-column>
+              <dxi-column dataField="personqualificationcountry_ID.description" caption="Country" cssClass="myClass" alignment="left" [allowEditing]="false"></dxi-column>
               <dxi-column dataField="personinstitute_ID.personinstitute_STARTDATE" caption="Person Institute" cssClass="myClass" alignment="left" [allowEditing]="false"></dxi-column>
               <dxi-column dataField="qualifcation_DESC" caption="Description" cssClass="myClass" alignment="center" ></dxi-column>
               <dxi-column dataField="qualifcation_LEVEL" caption="Level" cssClass="myClass" alignment="center" ></dxi-column>
@@ -75,13 +75,13 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                  <label class="control-label"> Qualification Date <span style="color:red">*</span></label>
+                  <label class="control-label"> Date <span style="color:red">*</span></label>
                   <input type="date" class="form-control" name="personqualification_DATE" [(ngModel)]="personeducationqualification.personqualification_DATE" maxlength="50" required>
               </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label"> Qualification Result <span style="color:red">*</span></label>
+                    <label class="control-label"> Result <span style="color:red">*</span></label>
                     <input type="text" class="form-control" name="personqualification_RESULT" [(ngModel)]="personeducationqualification.personqualification_RESULT" maxlength="50" required>
                 </div>
             </div>
@@ -132,13 +132,13 @@
           <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label"> Person Qualification Date <span style="color:red">*</span></label>
+                    <label class="control-label"> Person Date <span style="color:red">*</span></label>
                     <input type="date" class="form-control" name="personqualification_DATE" [(ngModel)]="personeducationqualification.personqualification_DATE" maxlength="50" required>
                 </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                  <label class="control-label"> Person Qualification Result <span style="color:red">*</span></label>
+                  <label class="control-label"> Person Result <span style="color:red">*</span></label>
                   <input type="text" class="form-control" name="personqualification_RESULT" [(ngModel)]="personeducationqualification.personqualification_RESULT" maxlength="50" required>
               </div>
             </div>
@@ -212,19 +212,19 @@
                   <div class="row">
                       <div class="col-md-2">
                           <div class="form-group">
-                              <label class="control-label"> Qualification Level <span style="color:red">*</span></label>
+                              <label class="control-label"> Level <span style="color:red">*</span></label>
                               <input type="text" class="form-control" [disabled]="disabled" name="qualifcation_LEVEL" [(ngModel)]="personeducationqualification.qualifcation_LEVEL" maxlength="50" required>
                           </div>
                       </div>
                       <div class="col-md-2">
                           <div class="form-group">
-                              <label class="control-label"> Person Qualification Result</label>
+                              <label class="control-label"> Person Result</label>
                               <input type="text" class="form-control" [disabled]="disabled" name="personqualification_RESULT" [(ngModel)]="personeducationqualification.personqualification_RESULT" maxlength="50" required>
                           </div>
                       </div>
                       <div class="col-md-4">
                           <div class="form-group">
-                              <label class="control-label"> Person Qualification Date <span style="color:red">*</span></label>
+                              <label class="control-label"> Person Date <span style="color:red">*</span></label>
                               <input type="date" class="form-control" [disabled]="disabled" name="personqualification_DATE" [(ngModel)]="personeducationqualification.personqualification_DATE" maxlength="50" required>
                           </div>
                       </div>
@@ -232,7 +232,7 @@
                   <div class="row">
                       <div class="col-md-12">
                           <div class="form-group">
-                              <label class="control-label"> Qualification Description </label>
+                              <label class="control-label"> Description </label>
                               <textarea rows="3" class="form-control" [(ngModel)]="personeducationqualification.qualifcation_DESC" name="qualifcation_DESC"></textarea>
                           </div>
                       </div>

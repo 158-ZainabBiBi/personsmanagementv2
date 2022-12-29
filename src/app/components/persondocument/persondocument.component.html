@@ -39,9 +39,9 @@
                 <dxi-column [width]="75" [allowFiltering]="false" [allowSorting]="false" alignment="center"
                     cellTemplate="cellTemplate"></dxi-column>
 
-                <dxi-column dataField="documenttype_ID.description" caption="Document type" cssClass="myClass"
+                <dxi-column dataField="documenttype_ID.description" caption="Type" cssClass="myClass"
                     [allowEditing]="false"></dxi-column>
-                <dxi-column [width]="200" dataField="filetype_ID.description" caption="File type" cssClass="myClass"
+                <dxi-column [width]="200" dataField="filetype_ID.description" caption="File Type" cssClass="myClass"
                     alignment="center"></dxi-column>
                     <dxi-column [width]="200" dataField="document_PATH" caption="Path" cssClass="myClass"
                     alignment="center"></dxi-column>
@@ -95,7 +95,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label class="control-label"> Document Description</label>
+                        <label class="control-label"> Description</label>
                         <textarea rows="3" class="form-control" [(ngModel)]="persondocument.documenttype_DESC" name="documenttype_DESC"></textarea>
                     </div>
                 </div>
@@ -182,7 +182,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label class="control-label"> Document Description</label>
+                        <label class="control-label"> Description</label>
                         <textarea rows="3" class="form-control" [(ngModel)]="persondocument.documenttype_DESC" name="documenttype_DESC"></textarea>
                     </div>
                 </div>
@@ -280,7 +280,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label"> Document Description</label>
+                                <label class="control-label"> Description</label>
                                 <textarea rows="3" class="form-control" [(ngModel)]="persondocument.documenttype_DESC" name="documenttype_DESC"></textarea>
                             </div>
                         </div>

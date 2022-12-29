@@ -38,7 +38,6 @@ export class PersoncommunicationsmsComponent implements OnInit {
   personcommunicationsms = {
     personsms_ID: 0,
     personcontact_ID: null,
-    personcontact_DETAIL: "",
     sms_DATETIME: "",
     sms_CONTENT: "",
     isactive: true,
@@ -84,7 +83,6 @@ export class PersoncommunicationsmsComponent implements OnInit {
     this.personcommunicationsms = {
       personsms_ID: 0,
     personcontact_ID: null,
-    personcontact_DETAIL: "",
     sms_DATETIME: "",
     sms_CONTENT: "",
     isactive: true,

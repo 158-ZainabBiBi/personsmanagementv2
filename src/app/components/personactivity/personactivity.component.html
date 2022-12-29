@@ -38,7 +38,7 @@
                 <dxi-column [width]="75" [allowFiltering]="false" [allowSorting]="false" alignment="center"
                     cellTemplate="cellTemplate"></dxi-column>
 
-                <dxi-column [width]="200" dataField="activity_ID.description" caption="Activity Type" cssClass="myClass"
+                <dxi-column [width]="200" dataField="activity_ID.description" caption="Activity" cssClass="myClass"
                     alignment="center"></dxi-column>
                 <dxi-column dataField="personactivity_WEBLINK" caption="WebLink" cssClass="myClass"
                     [allowEditing]="false"></dxi-column>
@@ -61,7 +61,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">
-                        <i class="fa fa-plus" aria-hidden="true"></i> Add New Contact
+                        <i class="fa fa-plus" aria-hidden="true"></i> Add New Activity
                     </h5>
                     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true"> ×</span>
@@ -111,7 +111,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Contact
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Activity
                     </h5>
                     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true"> ×</span>
@@ -161,17 +161,17 @@
             <div class="align-items-center row">
                 <div class="col" *ngIf="personactivity.personactivity_ID==0">
                     <a href="javascript:void" aria-controls="collapse-personactivityinfo1" aria-expanded="true"
-                        class="card-title">Add New Contact
+                        class="card-title">Add New Activity
                     </a>
                 </div>
                 <div class="col" *ngIf="personactivity.personactivity_ID!=0 && disabled==false">
                     <a href="javascript:void" aria-controls="collapse-personactivityinfo1" aria-expanded="true"
-                        class="card-title">Edit Contact
+                        class="card-title">Edit Activity
                     </a>
                 </div>
                 <div class="col" *ngIf="personactivity.personactivity_ID!=0 && disabled==true">
                     <a href="javascript:void" aria-controls="collapse-personactivityinfo1" aria-expanded="true"
-                        class="card-title">Contact Detail
+                        class="card-title">Activity Detail
                     </a>
                 </div>
             </div>
